@@ -5,9 +5,14 @@ public class CameraController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
-
     //store controls
     private InputAction moveAction;
+    private InputAction rotateAction;
+
+    private float playerSpeed = 2f;
+    private float playerRotationSpeed = 0.5f;
+
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -15,64 +20,26 @@ public class CameraController : MonoBehaviour
         //alternative, when playerInput is not attached to player
         //playerInput = new PlayerInput();
         moveAction = playerInput.actions["Move"];
-        
+        rotateAction = playerInput.actions["Rotate"];
 
         //bool leftClickPressed = Mouse.current.leftButton.isPressed;
     }
 
-    //private PlayerControls playerControls;
-
-    public float camSpeed = 1f;
-
-    
-    //private void Awake()
-    //{
-    //    playerControls = new PlayerControls();
-    //}
-
-    //private void OnEnable()
-    //{
-    //    playerControls.Enable();
-    //}
-
-    //private void OnDisable()
-    //{
-    //    playerControls.Disable();
-    //}
-
     void Update()
     {
-        //Vector2 movement = playerInput.actions["Move"].ReadValue<Vector2>();
+        //listen for player input
         Vector2 movement = moveAction.ReadValue<Vector2>();
-
-        //Vector2 move = playerControls.Movement.Move.ReadValue<Vector2>();
+        float rotate = rotateAction.ReadValue<float>();
 
         Vector3 position = transform.position;
 
-
-        //if(moveAction.ReadValue<Vector2> == )
-        //position += (Vector3)moveAction.ReadValue<Vector2>() * Time.deltaTime * camSpeed;
-        //position += new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical)")) * Time.deltaTime * camSpeed;
-
-        position += new Vector3(movement.x, 0, movement.y) * Time.deltaTime * camSpeed;
+        //add movement
+        Vector3 move = transform.right * movement.x + transform.forward * movement.y;
+        //add rotate
+        transform.Rotate(new Vector3(0, rotate, 0) * playerRotationSpeed, Space.World);
 
 
-        //if(Input.GetKey("w"))
-        //{
-        //    position.z += camSpeed * Time.deltaTime;
-        //}
-        //if (Input.GetKey("s"))
-        //{
-        //    position.z -= camSpeed * Time.deltaTime;
-        //}
-        //if (Input.GetKey("a"))
-        //{
-        //    position.x -= camSpeed * Time.deltaTime;
-        //}
-        //if (Input.GetKey("d"))
-        //{
-        //    position.x += camSpeed * Time.deltaTime;
-        //}
+        position += move * Time.deltaTime * playerSpeed;
 
 
         transform.position = position;
