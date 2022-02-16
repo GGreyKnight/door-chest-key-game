@@ -9,16 +9,17 @@ public class CameraController : MonoBehaviour
     private InputAction moveAction;
     private InputAction rotateAction;
 
-    private float playerSpeed = 2f;
+    public float playerSpeed = 3f;
     private float playerRotationSpeed = 0.5f;
 
 
     private void Awake()
     {
+        //random Player start rotation
+        transform.Rotate(new Vector3(0, Random.Range(0,4)*90, 0));
+
         playerInput = GetComponent<PlayerInput>();
 
-        //alternative, when playerInput is not attached to player
-        //playerInput = new PlayerInput();
         moveAction = playerInput.actions["Move"];
         rotateAction = playerInput.actions["Rotate"];
 
