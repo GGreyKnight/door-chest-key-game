@@ -9,7 +9,9 @@ public class CameraController : MonoBehaviour
     private InputAction moveAction;
     private InputAction rotateAction;
 
-    public float playerSpeed = 3f;
+    [SerializeField]
+    private float playerSpeed = 3f;
+    [SerializeField]
     private float playerRotationSpeed = 0.5f;
 
 
