@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e6da6ef5d5bfc4fb700b78991d3e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceToInteract: 2
 --- !u!65 &979681678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -730,3 +731,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f9f509812c2ff4394bcf049e125698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraController: {fileID: 0}

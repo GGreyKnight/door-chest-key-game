@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public CameraController cameraController;
+
+    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
-        Debug.Log("Im working");
+        if(Instance == null) { Instance = this; }
+        else { Destroy(gameObject); }
+
+        cameraController = FindObjectOfType<CameraController>();
+        
+        //Debug.Log("Im working");
         UnlockCursor();
     }
     // Start is called before the first frame update
