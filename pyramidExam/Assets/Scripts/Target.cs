@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,9 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool wasHighlighted = false;
     private bool wasTargeted = false;
     private bool isHighlighted = false;
+
+    public bool madeFromParts = false;
+    [SerializeField] private MeshRenderer[] parts = null;
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
@@ -48,20 +52,53 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if(isHighlighted == true && GameManager.Instance.cameraController.leftClickButtonPressed == true)
         {
-            Debug.Log("doorHitted");
+            Debug.Log("itemHitted");
             playAnim.playAnimation(targetAnimation);
+            isHighlighted = false;
         }
     }
 
     private void addHighlight()
     {
-        GetComponent<MeshRenderer>().material.color += new Color32(50, 50, 50, 0);
+        if(madeFromParts == false)
+        {
+            GetComponent<MeshRenderer>().material.color += new Color32(50, 50, 50, 0);
+            wasHighlighted = true;
+        }
+        else
+        {
+            addHighlightToMulti();
+        }
+    }
+
+    private void addHighlightToMulti()
+    {
+        for (int i = 0;i<parts.Length;i++)// MeshRenderer joint in parts)
+        {
+            parts[i].material.color += new Color32(50, 50, 50, 0);
+        }   
         wasHighlighted = true;
     }
 
     private void removeHighlight()
     {
-        GetComponent<MeshRenderer>().material.color -= new Color32(50, 50, 50, 0);
+        if(madeFromParts == false)
+        {
+            GetComponent<MeshRenderer>().material.color -= new Color32(50, 50, 50, 0);
+            wasHighlighted = false;
+        }
+        else
+        {
+            removeHighlightFromMulti();
+        }
+    }
+
+    private void removeHighlightFromMulti()
+    {
+        for (int i = 0; i < parts.Length; i++)// MeshRenderer joint in parts)
+        {
+            parts[i].material.color -= new Color32(50, 50, 50, 0);
+        }
         wasHighlighted = false;
     }
 
