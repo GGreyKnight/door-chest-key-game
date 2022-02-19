@@ -2,7 +2,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "Movement",
+            "name": "Game",
             "id": "a3211c19-757b-4a13-a802-4347edf944fd",
             "actions": [
                 {
@@ -15,12 +15,12 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Cursor",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "7849a50f-7d48-4d71-82b3-69c6a3dbacd3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cursor",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

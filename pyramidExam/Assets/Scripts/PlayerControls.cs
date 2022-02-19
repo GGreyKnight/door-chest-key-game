@@ -24,7 +24,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Movement"",
+            ""name"": ""Game"",
             ""id"": ""a3211c19-757b-4a13-a802-4347edf944fd"",
             ""actions"": [
                 {
@@ -37,12 +37,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cursor"",
+                    ""name"": ""LeftClick"",
                     ""type"": ""Button"",
                     ""id"": ""7849a50f-7d48-4d71-82b3-69c6a3dbacd3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -63,7 +63,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cursor"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -177,11 +177,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Movement
-        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
-        m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
-        m_Movement_Cursor = m_Movement.FindAction("Cursor", throwIfNotFound: true);
-        m_Movement_Rotate = m_Movement.FindAction("Rotate", throwIfNotFound: true);
+        // Game
+        m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
+        m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
+        m_Game_LeftClick = m_Game.FindAction("LeftClick", throwIfNotFound: true);
+        m_Game_Rotate = m_Game.FindAction("Rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,54 +238,54 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Movement
-    private readonly InputActionMap m_Movement;
-    private IMovementActions m_MovementActionsCallbackInterface;
-    private readonly InputAction m_Movement_Move;
-    private readonly InputAction m_Movement_Cursor;
-    private readonly InputAction m_Movement_Rotate;
-    public struct MovementActions
+    // Game
+    private readonly InputActionMap m_Game;
+    private IGameActions m_GameActionsCallbackInterface;
+    private readonly InputAction m_Game_Move;
+    private readonly InputAction m_Game_LeftClick;
+    private readonly InputAction m_Game_Rotate;
+    public struct GameActions
     {
         private @PlayerControls m_Wrapper;
-        public MovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Movement_Move;
-        public InputAction @Cursor => m_Wrapper.m_Movement_Cursor;
-        public InputAction @Rotate => m_Wrapper.m_Movement_Rotate;
-        public InputActionMap Get() { return m_Wrapper.m_Movement; }
+        public GameActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Game_Move;
+        public InputAction @LeftClick => m_Wrapper.m_Game_LeftClick;
+        public InputAction @Rotate => m_Wrapper.m_Game_Rotate;
+        public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
-        public void SetCallbacks(IMovementActions instance)
+        public static implicit operator InputActionMap(GameActions set) { return set.Get(); }
+        public void SetCallbacks(IGameActions instance)
         {
-            if (m_Wrapper.m_MovementActionsCallbackInterface != null)
+            if (m_Wrapper.m_GameActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                @Cursor.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCursor;
-                @Cursor.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCursor;
-                @Cursor.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCursor;
-                @Rotate.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
-                @Rotate.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
-                @Rotate.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
+                @Move.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
+                @LeftClick.started -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClick;
+                @Rotate.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRotate;
             }
-            m_Wrapper.m_MovementActionsCallbackInterface = instance;
+            m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Cursor.started += instance.OnCursor;
-                @Cursor.performed += instance.OnCursor;
-                @Cursor.canceled += instance.OnCursor;
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
             }
         }
     }
-    public MovementActions @Movement => new MovementActions(this);
+    public GameActions @Game => new GameActions(this);
     private int m_DesktopSchemeIndex = -1;
     public InputControlScheme DesktopScheme
     {
@@ -295,10 +295,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_DesktopSchemeIndex];
         }
     }
-    public interface IMovementActions
+    public interface IGameActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnCursor(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
     }
 }
