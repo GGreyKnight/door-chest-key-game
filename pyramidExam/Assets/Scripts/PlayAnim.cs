@@ -10,7 +10,7 @@ public class PlayAnim : MonoBehaviour
 
     private bool animationOncePlayed = false;
 
-    public void playAnimation(string animName)
+    public void PlayAnimation(string animName)
     {
         if(animationOncePlayed == false)
         {

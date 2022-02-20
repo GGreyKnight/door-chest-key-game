@@ -108,9 +108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e6da6ef5d5bfc4fb700b78991d3e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  confirmationWindow: {fileID: 0}
+  messageAsk: Open?
   distanceToInteract: 2
   playAnim: {fileID: 6625044060489609115}
   targetAnimation: doorOpenOutsideAnim
+  madeFromParts: 0
+  parts: []
 --- !u!1 &5118793351702181792
 GameObject:
   m_ObjectHideFlags: 0

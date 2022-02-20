@@ -24,24 +24,24 @@ public class CreateLevel : MonoBehaviour
         wallHeight = wallPrefab.transform.localScale.y;
         wallThickness = wallPrefab.transform.localScale.z;
 
-        createFloor(roomX, roomY);
+        CreateFloor(roomX, roomY);
         
         if(roomX > 2 && roomY > 2)
         {
-            createWalls(roomX, roomY);
-            createDoors(roomX, roomY);
-            createChest(roomX, roomY);
+            CreateWalls(roomX, roomY);
+            CreateDoors(roomX, roomY);
+            CreateChest(roomX, roomY);
         }
     }
 
-    private void createFloor(float roomX, float roomY)
+    private void CreateFloor(float roomX, float roomY)
     {
         GameObject floor = Instantiate(floorPrefab);
 
         floor.transform.localScale = new Vector3((roomX*0.1f)+1,1,(roomY*0.1f)+1);
     }
 
-    private void createChest(float roomX, float roomY)
+    private void CreateChest(float roomX, float roomY)
     {
         GameObject chest = Instantiate(chestPrefab);
 
@@ -49,7 +49,7 @@ public class CreateLevel : MonoBehaviour
         chest.transform.Rotate(new Vector3(0, Random.Range(0, 4) * 90, 0));
     }
 
-    private void createWalls(float roomX, float roomY)
+    private void CreateWalls(float roomX, float roomY)
     {
         walls = new List<GameObject>();
         for (int i = 0; i < 4; i++)
@@ -77,7 +77,7 @@ public class CreateLevel : MonoBehaviour
         }
     }
 
-    private void createDoors(int roomX, int roomY)
+    private void CreateDoors(int roomX, int roomY)
     {
         int randomWall = Random.Range(0, walls.Count);
         Debug.Log(randomWall);

@@ -6,6 +6,10 @@ using UnityEngine.EventSystems;
 
 public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    //messages
+    [SerializeField] public ConfirmationWindow confirmationWindow;
+    [SerializeField] private string messageAsk;
+
 
     //private Color currentColor;
 
@@ -17,6 +21,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool wasHighlighted = false;
     private bool wasTargeted = false;
     private bool isHighlighted = false;
+    private bool opened = false;
 
     public bool madeFromParts = false;
     [SerializeField] private MeshRenderer[] parts = null;
@@ -32,7 +37,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         wasTargeted = false;
         if(wasHighlighted == true)
         {
-            removeHighlight();
+            RemoveHighlight();
         }
     }
 
@@ -41,24 +46,23 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (wasTargeted == true && wasHighlighted == false && distanceToInteract >= Mathf.Abs(Vector3.Distance(transform.position, GameManager.Instance.cameraController.transform.position)))
         {
             isHighlighted = true;
-            addHighlight();
+            AddHighlight();
         }
 
         if(wasHighlighted == true && distanceToInteract < Mathf.Abs(Vector3.Distance(transform.position, GameManager.Instance.cameraController.transform.position)))
         {
             isHighlighted = false;
-            removeHighlight();
+            RemoveHighlight();
         }
 
-        if(isHighlighted == true && GameManager.Instance.cameraController.leftClickButtonPressed == true)
+        if (isHighlighted == true && GameManager.Instance.cameraController.leftClickButtonPressed == true && opened == false)
         {
             Debug.Log("itemHitted");
-            playAnim.playAnimation(targetAnimation);
-            isHighlighted = false;
+            OpenConfirmationWindow(messageAsk);
         }
     }
 
-    private void addHighlight()
+    private void AddHighlight()
     {
         if(madeFromParts == false)
         {
@@ -67,11 +71,11 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            addHighlightToMulti();
+            AddHighlightToMulti();
         }
     }
 
-    private void addHighlightToMulti()
+    private void AddHighlightToMulti()
     {
         for (int i = 0;i<parts.Length;i++)// MeshRenderer joint in parts)
         {
@@ -80,7 +84,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         wasHighlighted = true;
     }
 
-    private void removeHighlight()
+    private void RemoveHighlight()
     {
         if(madeFromParts == false)
         {
@@ -89,11 +93,11 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            removeHighlightFromMulti();
+            RemoveHighlightFromMulti();
         }
     }
 
-    private void removeHighlightFromMulti()
+    private void RemoveHighlightFromMulti()
     {
         for (int i = 0; i < parts.Length; i++)// MeshRenderer joint in parts)
         {
@@ -102,8 +106,32 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         wasHighlighted = false;
     }
 
+    public void OpenConfirmationWindow(string message)
+    {
+        confirmationWindow.gameObject.SetActive(true);
+        confirmationWindow.yesButton.onClick.AddListener(YesClicked);
+        confirmationWindow.noButton.onClick.AddListener(NoClicked);
+        confirmationWindow.messageText.text = message;
+    }
+
+    public void YesClicked()
+    {
+        confirmationWindow.gameObject.SetActive(false);
+        Debug.Log("Yes clicked");
+        playAnim.PlayAnimation(targetAnimation);
+        opened = true;
+        isHighlighted = false;
+    }
+
+    public void NoClicked()
+    {
+        confirmationWindow.gameObject.SetActive(false);
+        Debug.Log("No clicked");
+    }
+
     void Start()
     {
         //currentColor = GetComponent<MeshRenderer>().material.color;
+        confirmationWindow = FindObjectOfType<ConfirmationWindow>(true);
     }
 }
