@@ -26,7 +26,7 @@ public class CreateLevel : MonoBehaviour
 
         CreateFloor(roomX, roomY);
         
-        if(roomX > 2 && roomY > 2)
+        if(roomX > 3 && roomY > 3)
         {
             CreateWalls(roomX, roomY);
             CreateDoors(roomX, roomY);
@@ -45,7 +45,11 @@ public class CreateLevel : MonoBehaviour
     {
         GameObject chest = Instantiate(chestPrefab);
 
-        chest.transform.position = new Vector3(Random.Range(-roomX/2+0.5f, roomX/2 - 0.5f), 0, Random.Range(-roomY/2 + 0.5f, roomY/2 - 0.5f));
+        chest.transform.position = new Vector3(Random.Range(-roomX/2+1f, roomX/2 - 1f), 0, Random.Range(-roomY/2 + 1f, roomY/2 - 1f));
+        while(Vector3.Distance(chest.transform.position, new Vector3(0,0,0))<1)
+        {
+            chest.transform.position = new Vector3(Random.Range(-roomX / 2 + 1f, roomX / 2 - 1f), 0, Random.Range(-roomY / 2 + 1f, roomY / 2 - 1f));
+        }
         chest.transform.Rotate(new Vector3(0, Random.Range(0, 4) * 90, 0));
     }
 
@@ -133,7 +137,7 @@ public class CreateLevel : MonoBehaviour
 
                 walls[randomWall].transform.position += new Vector3(0, 0, randomPlaceOnWall / 2 + .5f);
                 float restWallToFill = walls[randomWall].transform.localScale.x - (walls[randomWall].transform.localScale.x - randomPlaceOnWall);
-                Debug.Log(restWallToFill);
+                //Debug.Log(restWallToFill);
                 walls[randomWall].transform.localScale -= new Vector3(randomPlaceOnWall + 1, 0, 0);
 
                 {
@@ -148,11 +152,5 @@ public class CreateLevel : MonoBehaviour
                 }
             }
         }
-    }
-
-
-    void Start()
-    {
-        
     }
 }

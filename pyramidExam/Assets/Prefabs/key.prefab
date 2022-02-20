@@ -144,10 +144,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   confirmationWindow: {fileID: 0}
   messageAsk: Take?
-  distanceToInteract: 2
+  messageKeyNeeded: 
+  distanceToInteract: 2.5
   playAnim: {fileID: 7630909440265302130}
   targetAnimation: keyPickup
   pickable: 1
+  keyToOpen: 0
   madeFromParts: 1
   parts:
   - {fileID: 1931418646107169401}

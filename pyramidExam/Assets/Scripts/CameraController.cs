@@ -33,8 +33,6 @@ public class CameraController : MonoBehaviour
 
         click = playerCotrols.Game.LeftClick;
         click.Enable();
-        /*click.started += clickAction;
-        click.canceled += clickRelease;*/
     }
 
     private void OnDisable()
@@ -46,11 +44,19 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.Instance.gamePlaying)
+        {
+            GetPlayerInput();
+        }
+    }
+
+    private void GetPlayerInput()
+    {
         //listen for player input
         leftClickButtonPressed = click.WasPressedThisFrame();
         Vector2 movement = move.ReadValue<Vector2>();
         float rotateCamera = rotate.ReadValue<float>();
-        
+
         Vector3 position = transform.position;
         //add movement
         Vector3 moveCamera = transform.right * movement.x + transform.forward * movement.y;
@@ -63,14 +69,4 @@ public class CameraController : MonoBehaviour
         //go to new position
         transform.position = position;
     }
-
-    /*private void clickAction(InputAction.CallbackContext context)
-    {
-        leftClickButton = true;
-    }
-
-    private void clickRelease(InputAction.CallbackContext context)
-    {
-        leftClickButton = false;
-    }*/
 }

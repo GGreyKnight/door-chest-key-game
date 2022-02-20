@@ -1223,9 +1223,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   confirmationWindow: {fileID: 0}
   messageAsk: Open?
-  distanceToInteract: 2
+  messageKeyNeeded: 
+  distanceToInteract: 2.5
   playAnim: {fileID: 1618398592689189859}
   targetAnimation: chestOpen
+  pickable: 0
+  keyToOpen: 0
   madeFromParts: 1
   parts:
   - {fileID: 1572125988395137704}

@@ -6,8 +6,6 @@ public class PlayAnim : MonoBehaviour
 {
     [SerializeField] private Animator myAnimator = null;
 
-    //[SerializeField] private string animName = null;
-
     private bool animationOncePlayed = false;
 
     public void PlayAnimation(string animName)

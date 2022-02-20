@@ -11,10 +11,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private string messageAsk;
     [SerializeField] private string messageKeyNeeded;
 
-
-    //private Color currentColor;
-
-    [SerializeField] public float distanceToInteract = 2;
+    [SerializeField] public float distanceToInteract = 2.5f;
 
     [SerializeField] private PlayAnim playAnim = null;
     [SerializeField] private string targetAnimation = null;
@@ -32,13 +29,17 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
         wasTargeted = true;
+        if (wasHighlighted == false && distanceToInteract >= Mathf.Abs(Vector3.Distance(transform.position, GameManager.Instance.cameraController.transform.position)))
+        {
+            isHighlighted = true;
+            AddHighlight();
+        }
     }
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
         wasTargeted = false;
+        isHighlighted = false;
         if(wasHighlighted == true)
         {
             RemoveHighlight();
@@ -47,7 +48,6 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Update()
     {
-        Debug.Log(KeyInventory.hasGoldKey);
         if (wasTargeted == true && wasHighlighted == false && distanceToInteract >= Mathf.Abs(Vector3.Distance(transform.position, GameManager.Instance.cameraController.transform.position)))
         {
             isHighlighted = true;
@@ -62,7 +62,6 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (isHighlighted == true && GameManager.Instance.cameraController.leftClickButtonPressed == true && opened == false)
         {
-            Debug.Log("itemHitted");
             if (keyToOpen == true)
             {
                 if(KeyInventory.hasGoldKey == false)
@@ -96,7 +95,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void AddHighlightToMulti()
     {
-        for (int i = 0;i<parts.Length;i++)// MeshRenderer joint in parts)
+        for (int i = 0;i<parts.Length;i++)
         {
             parts[i].material.color += new Color32(50, 50, 50, 0);
         }   
@@ -118,7 +117,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void RemoveHighlightFromMulti()
     {
-        for (int i = 0; i < parts.Length; i++)// MeshRenderer joint in parts)
+        for (int i = 0; i < parts.Length; i++)
         {
             parts[i].material.color -= new Color32(50, 50, 50, 0);
         }
@@ -151,14 +150,12 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OkClicked()
     {
         confirmationWindow.gameObject.SetActive(false);
-        Debug.Log("Ok clicked");
         isHighlighted = false;
     }
 
     public void YesClicked()
     {
         confirmationWindow.gameObject.SetActive(false);
-        Debug.Log("Yes clicked");
         if(pickable == true)
         {
             KeyInventory.hasGoldKey = true;
@@ -178,7 +175,6 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void NoClicked()
     {
         confirmationWindow.gameObject.SetActive(false);
-        Debug.Log("No clicked");
         isHighlighted = false;
     }
 
@@ -190,7 +186,6 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        //currentColor = GetComponent<MeshRenderer>().material.color;
         confirmationWindow = FindObjectOfType<ConfirmationWindow>(true);
     }
 }
