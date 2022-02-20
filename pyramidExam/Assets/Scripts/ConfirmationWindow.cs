@@ -8,5 +8,6 @@ public class ConfirmationWindow : MonoBehaviour
 {
     public Button yesButton;
     public Button noButton;
+    public Button okButton;
     public TextMeshProUGUI messageText;
 }

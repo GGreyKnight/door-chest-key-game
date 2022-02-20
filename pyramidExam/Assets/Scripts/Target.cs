@@ -9,6 +9,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     //messages
     [SerializeField] public ConfirmationWindow confirmationWindow;
     [SerializeField] private string messageAsk;
+    [SerializeField] private string messageKeyNeeded;
 
 
     //private Color currentColor;
@@ -22,6 +23,9 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool wasTargeted = false;
     private bool isHighlighted = false;
     private bool opened = false;
+
+    [SerializeField] private bool pickable = false;
+    [SerializeField] private bool keyToOpen = false;
 
     public bool madeFromParts = false;
     [SerializeField] private MeshRenderer[] parts = null;
@@ -43,6 +47,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Update()
     {
+        Debug.Log(KeyInventory.hasGoldKey);
         if (wasTargeted == true && wasHighlighted == false && distanceToInteract >= Mathf.Abs(Vector3.Distance(transform.position, GameManager.Instance.cameraController.transform.position)))
         {
             isHighlighted = true;
@@ -58,7 +63,21 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (isHighlighted == true && GameManager.Instance.cameraController.leftClickButtonPressed == true && opened == false)
         {
             Debug.Log("itemHitted");
-            OpenConfirmationWindow(messageAsk);
+            if (keyToOpen == true)
+            {
+                if(KeyInventory.hasGoldKey == false)
+                {
+                    OpenConfirmationWindow(messageKeyNeeded);
+                }
+                else
+                {
+                    OpenConfirmationWindow(messageAsk);
+                }
+            }
+            else
+            {
+                OpenConfirmationWindow(messageAsk);
+            }
         }
     }
 
@@ -108,17 +127,50 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OpenConfirmationWindow(string message)
     {
-        confirmationWindow.gameObject.SetActive(true);
-        confirmationWindow.yesButton.onClick.AddListener(YesClicked);
-        confirmationWindow.noButton.onClick.AddListener(NoClicked);
-        confirmationWindow.messageText.text = message;
+        if(keyToOpen == true && KeyInventory.hasGoldKey == false)
+        {
+            confirmationWindow.gameObject.SetActive(true);
+            confirmationWindow.yesButton.gameObject.SetActive(false);
+            confirmationWindow.noButton.gameObject.SetActive(false);
+            confirmationWindow.okButton.gameObject.SetActive(true);
+            confirmationWindow.okButton.onClick.AddListener(OkClicked);
+            confirmationWindow.messageText.text = message;
+        }
+        else
+        {
+            confirmationWindow.gameObject.SetActive(true);
+            confirmationWindow.yesButton.gameObject.SetActive(true);
+            confirmationWindow.yesButton.onClick.AddListener(YesClicked);
+            confirmationWindow.noButton.gameObject.SetActive(true);
+            confirmationWindow.noButton.onClick.AddListener(NoClicked);
+            confirmationWindow.okButton.gameObject.SetActive(false);
+            confirmationWindow.messageText.text = message;
+        }
+    }
+
+    public void OkClicked()
+    {
+        confirmationWindow.gameObject.SetActive(false);
+        Debug.Log("Ok clicked");
+        isHighlighted = false;
     }
 
     public void YesClicked()
     {
         confirmationWindow.gameObject.SetActive(false);
         Debug.Log("Yes clicked");
+        if(pickable == true)
+        {
+            KeyInventory.hasGoldKey = true;
+        }
+
         playAnim.PlayAnimation(targetAnimation);
+
+        if(pickable == true)
+        {
+            StartCoroutine(KillOnAnimationEnd());
+        }
+
         opened = true;
         isHighlighted = false;
     }
@@ -127,6 +179,13 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         confirmationWindow.gameObject.SetActive(false);
         Debug.Log("No clicked");
+        isHighlighted = false;
+    }
+
+    private IEnumerator KillOnAnimationEnd()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 
     void Start()

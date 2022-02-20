@@ -45,7 +45,7 @@ public class CreateLevel : MonoBehaviour
     {
         GameObject chest = Instantiate(chestPrefab);
 
-        chest.transform.position = new Vector3(Random.Range(1, roomX*0.1f), 0, Random.Range(1, roomY * 0.1f));
+        chest.transform.position = new Vector3(Random.Range(-roomX/2+0.5f, roomX/2 - 0.5f), 0, Random.Range(-roomY/2 + 0.5f, roomY/2 - 0.5f));
         chest.transform.Rotate(new Vector3(0, Random.Range(0, 4) * 90, 0));
     }
 
