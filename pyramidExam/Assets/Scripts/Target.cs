@@ -15,6 +15,8 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [SerializeField] private PlayAnim playAnim = null;
     [SerializeField] private string targetAnimation = null;
+    [SerializeField] private bool hasSound = false;
+    [SerializeField] private AudioSource audioSource = null;
 
     private bool wasHighlighted = false;
     private bool wasTargeted = false;
@@ -163,9 +165,16 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         playAnim.PlayAnimation(targetAnimation);
 
+        if(hasSound == true)
+        {
+            audioSource.Play();
+        }
+
         if(pickable == true)
         {
-            StartCoroutine(KillOnAnimationEnd());
+            StartCoroutine(DestroyOnAnimationEnd());
+            ShakeCamera shake = FindObjectOfType<ShakeCamera>();
+            shake.start = true;
         }
 
         opened = true;
@@ -178,7 +187,7 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isHighlighted = false;
     }
 
-    private IEnumerator KillOnAnimationEnd()
+    private IEnumerator DestroyOnAnimationEnd()
     {
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);

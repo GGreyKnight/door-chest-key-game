@@ -1227,6 +1227,8 @@ MonoBehaviour:
   distanceToInteract: 2.5
   playAnim: {fileID: 1618398592689189859}
   targetAnimation: chestOpen
+  hasSound: 0
+  audioSource: {fileID: 0}
   pickable: 0
   keyToOpen: 0
   madeFromParts: 1
@@ -2256,6 +2258,10 @@ PrefabInstance:
     - target: {fileID: 4953350077865697099, guid: bcba73896c9b38a469a6a924e8fdb565, type: 3}
       propertyPath: m_Name
       value: key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5280544266793413534, guid: bcba73896c9b38a469a6a924e8fdb565, type: 3}
+      propertyPath: Priority
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcba73896c9b38a469a6a924e8fdb565, type: 3}
