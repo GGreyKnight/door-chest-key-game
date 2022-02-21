@@ -173,8 +173,10 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if(pickable == true)
         {
             StartCoroutine(DestroyOnAnimationEnd());
-            ShakeCamera shake = FindObjectOfType<ShakeCamera>();
-            shake.start = true;
+            
+            //need some changes
+            //ShakeCamera shake = FindObjectOfType<ShakeCamera>();
+            //shake.start = true;
         }
 
         opened = true;
