@@ -1700,44 +1700,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2c14bc3fe8b05549bdad5d93b2d7454, type: 3}
+  m_Script: {fileID: 11500000, guid: ee187e839d9f55a42a4f0fa9c193575b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: 0
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0037108473
-      value: 0.0000015199184
-      inSlope: 0.31088486
-      outSlope: 0.31088486
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.19420774
-      value: 0.05922412
-      inSlope: 0.11855407
-      outSlope: 0.11855407
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.000254
-      value: -0.00024332781
-      inSlope: -0.073776715
-      outSlope: -0.073776715
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  duration: 1
+  power: 0.3
+  duration: 2
+  slowDownAmount: 1
+  shouldShake: 0
 --- !u!1 &1063103579
 GameObject:
   m_ObjectHideFlags: 0
@@ -3812,12 +3781,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

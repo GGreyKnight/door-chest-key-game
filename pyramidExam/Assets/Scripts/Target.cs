@@ -174,9 +174,8 @@ public class Target : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             StartCoroutine(DestroyOnAnimationEnd());
             
-            //need some changes
-            //ShakeCamera shake = FindObjectOfType<ShakeCamera>();
-            //shake.start = true;
+            ShakeCameraNew shake = FindObjectOfType<ShakeCameraNew>();
+            shake.shouldShake = true;
         }
 
         opened = true;
